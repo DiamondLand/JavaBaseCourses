@@ -4,19 +4,19 @@ interface Animal {
     void makeSound();
 }
 
-class Dog implements Animal {
+class DogS implements Animal {
     public void makeSound() {
         System.out.println("Гав!");
     }
 }
 
-class Cat implements Animal {
+class CatS implements Animal {
     public void makeSound() {
         System.out.println("Мяу!");
     }
 }
 
-class Cow implements Animal {
+class CowS implements Animal {
     public void makeSound() {
         System.out.println("Мууууу!");
     }
@@ -48,7 +48,7 @@ class Dog extends AnimalMov {
 
 public class Animals {
     public static void main(String[] args) {
-        Animal[] animals = {new Dog(), new Cat(), new Cow()};
+        Animal[] animals = {new DogS(), new CatS(), new CowS()};
         for (Animal animal : animals) {
             animal.makeSound();
         }
