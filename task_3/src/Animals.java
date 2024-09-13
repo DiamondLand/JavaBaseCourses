@@ -22,6 +22,30 @@ class Cow implements Animal {
     }
 }
 
+class AnimalMov {
+    public void move() {
+        System.out.println("Animal moves.");
+    }
+}
+
+class Fish extends AnimalMov {
+    public void move() {
+        System.out.println("Fish swims.");
+    }
+}
+
+class Bird extends AnimalMov {
+    public void move() {
+        System.out.println("Bird flies.");
+    }
+}
+
+class Dog extends AnimalMov {
+    public void move() {
+        System.out.println("Dog runs.");
+    }
+}
+
 public class Animals {
     public static void main(String[] args) {
         Animal[] animals = {new Dog(), new Cat(), new Cow()};
