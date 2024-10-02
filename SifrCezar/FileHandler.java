@@ -109,19 +109,37 @@ public class FileHandler {
 
     private static String decryptWithStatAnalysis(String text) {
         Map<Character, Integer> frequencyMap = new HashMap<>();
+
+        // Считаем частоты букв в зашифрованном тексте
         for (char c : text.toCharArray()) {
             if (ALPHABET.indexOf(c) != -1 || ALPHABET_LOWER.indexOf(c) != -1) {
                 frequencyMap.put(c, frequencyMap.getOrDefault(c, 0) + 1);
             }
         }
 
+        // Определяем самую частую букву в тексте
         char mostFrequentChar = frequencyMap.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .get().getKey();
 
-        int assumedKey = ALPHABET.indexOf(mostFrequentChar) - ALPHABET.indexOf('О'); // 'О' - наиболее частая буква в русском
+        // Проверяем, загружены ли частоты
+        if (RUSSIAN_FREQUENCIES.isEmpty()) {
+            System.out.println("Частоты не загружены. Используем 'О' как самую частую букву.");
+            // Если частоты не загружены, используем букву 'О'
+            int assumedKey = ALPHABET.indexOf(mostFrequentChar) - ALPHABET.indexOf('О');
+            if (assumedKey < 0) assumedKey += ALPHABET.length();
+            return Cipher.decrypt(text, assumedKey);
+        }
+
+        // Если частоты загружены, вычисляем ключ на основе частотного анализа
+        char mostFrequentInRussian = RUSSIAN_FREQUENCIES.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .get().getKey();
+
+        int assumedKey = ALPHABET.indexOf(mostFrequentChar) - ALPHABET.indexOf(mostFrequentInRussian);
         if (assumedKey < 0) assumedKey += ALPHABET.length();
 
         return Cipher.decrypt(text, assumedKey);
     }
+
 }
